@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: hmdp
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hmdp?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        time-between-eviction-runs: 10s
+    database: 0
+  jackson:
+    default-property-inclusion: non_null
+mybatis-plus:
+  type-aliases-package:
+logging:
+  level:
+    com.hmdp: debug
+jwt:
+  token:
+    tokenExpiration: 15 #min
+    tokenSignKey: heimadianping #签名密钥
