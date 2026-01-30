@@ -69,13 +69,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public Result login(LoginFormDTO loginFormDTO, HttpSession session) {
         String phone = loginFormDTO.getPhone();
+        //验证手机号
         if(RegexUtils.isPhoneInvalid(phone)){
             return Result.fail(UserErrorPhone);
         }
+        //redis拿到code
         String code = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY_PREFIX + phone);
         if(!loginFormDTO.getCode().equals(code) || loginFormDTO.getCode()==null){
             return Result.fail(UserErrorCode);
         }
+        //拿到用户
         User user = query().eq("phone", phone).one();
         if(user == null){
             log.info("用户为null");

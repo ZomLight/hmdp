@@ -3,7 +3,6 @@ package com.hmdp.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;
-import com.hmdp.constant.UserBackMessage;
 import com.hmdp.dto.LoginFormDTO;
 import com.hmdp.dto.Result;
 import com.hmdp.dto.UserDTO;
@@ -40,32 +39,46 @@ public class UserController {
 
     /**
      * 登录
-     * @param loginFormDTO
-     * @param session
-     * @return
+     * @return Resule
      */
     @PostMapping("login")
     public Result login(@RequestBody LoginFormDTO loginFormDTO, HttpSession session){
         return userService.login(loginFormDTO,session);
     }
 
+    /**
+     * 签到功能
+     * @return result
+     */
     @PostMapping("sign")
     public Result sign(){
         return userService.sign();
     }
 
+    /**
+     * 签退功能
+     * @return result
+     */
     @GetMapping("sign/count")
     public Result signCount(){
         return userService.signCount();
     }
 
+    /**
+     * 个人信息
+     * @return result
+     */
     @GetMapping("me")
     public Result me(){
         //
         UserDTO user = UserHolder.getUser();
-        return Result.ok(user);
+        return userInfoService.me(user);
     }
 
+    /**
+     * 个人id查询信息
+     * @return result
+     */
     @GetMapping("/{id}")
     public Result queryById(@PathVariable("id") Long id){
         //获取用户信息
@@ -77,6 +90,10 @@ public class UserController {
         return Result.ok(userDTO);
     }
 
+    /**
+     * 个人详细信息，根据id
+     * @return result
+     */
     @GetMapping("info/{id}")
     public Result infoById(@PathVariable("id") Long id){
         UserInfo userInfo = userInfoService.getById(id);
